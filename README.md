@@ -7,16 +7,16 @@ A reproduction of possible unintended behaviour when configuring an Actions work
 You'll find a single GitHub Actions workflow in this repository [here](./.github/workflows/broken.yml) which is meant to run in this order:
 
 1. Parallel
-  1. Run `succeeding` and report a status of success
-  2. Run `skipped` and report a status of skipped
-2. Run `summary` and report a status of success
-3. Run `afterall` and report a status of success
+   1. Run `succeeding` and report a status of success
+   2. Run `skipped` and report a status of skipped
+3. Run `summary` and report a status of success
+4. Run `afterall` and report a status of success
 
 However, you'll notice that instead the following occurs:
 
 1. Parallel
-  1. Run `succeeding` and report a status of success
-  2. Run `skipped` and report a status of skipped
+   1. Run `succeeding` and report a status of success
+   2. Run `skipped` and report a status of skipped
 2. Run `summary` and report a status of success
 3. Run `afterall` and report a status of skipped
 
