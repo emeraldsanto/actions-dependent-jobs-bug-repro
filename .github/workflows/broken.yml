@@ -1,0 +1,39 @@
+name: Broken
+
+on:
+  workflow_dispatch
+
+jobs:
+  succeeding:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo This is the succeeding job
+
+  skipped:
+    if: ${{ !always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo This is the skipped job
+
+  summary:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs:
+      - succeeding
+      - skipped
+    steps:
+      - run: |-
+          for status in ${{ join(needs.*.result, ' ') }}
+          do
+            if [ "$status" != "success" ] && [ "$status" != "skipped" ]
+            then
+              echo "Some checks failed"
+              exit 1
+            fi
+          done
+
+  afterall:
+    runs-on: ubuntu-latest
+    needs: summary
+    steps:
+      - run: echo This is the job that runs after all others
