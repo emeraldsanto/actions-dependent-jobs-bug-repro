@@ -32,9 +32,8 @@ jobs:
             fi
           done
 
-  # This job will be skipped, even when `summary` succeeds,
-  # as long as we don't remove `skipped` from `summary`'s `needs` 🧐
   afterall:
+    if: ${{ needs.summary.result == 'success' && !cancelled() }}
     runs-on: ubuntu-latest
     needs: summary
     steps:
